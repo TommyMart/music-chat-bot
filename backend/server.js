@@ -9,19 +9,20 @@ app.use(express.json());
 
 // Initialize OpenAI with API key directly
 const openai = new OpenAI({
-  organization: 'org-MAhDwIILgeL56i5hrHTPOsmz',
+  organization: process.env.OPENAI_ORG,
   apiKey: process.env.OPENAI_API_KEY, // Use the API key from the environment variable
 });
 
 const MAX_CHARACTER_LIMIT = 300; // Set your desired character limit
 
 app.post('/api/chat', async (req, res) => {
-  const { message } = req.body;
+  const { message, currentModel } = req.body;
+  console.log(currentModel, "currentModel")
 
   try {
     // Call OpenAI API without streaming
     const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo", // Specify the model
+      model: `${currentModel}`, // Model from client
       messages: [
         { 
           role: 'system', 
@@ -33,7 +34,7 @@ app.post('/api/chat', async (req, res) => {
     });
 
     // Log the response to see its structure
-    console.log('OpenAI Response:', response);
+    // console.log('OpenAI Response:', response);
 
     // Ensure response.choices exists and grab the first choice
     if (response && response.choices && response.choices.length > 0) {
@@ -53,6 +54,23 @@ app.post('/api/chat', async (req, res) => {
     console.error('Error calling OpenAI API:', error);
     res.status(500).json({ error: 'Failed to communicate with OpenAI' });
   }
+});
+
+app.get('/api/models', async (req, res) => {
+    try {
+        // Fetch available models using the correct method for v4 API
+        const response = await openai.models.list(); 
+        
+        // Assuming response.data contains the models
+        console.log(response.data); // Log the actual models data
+        
+        res.json({
+            models: response.data // Ensure to return models as an array
+        });
+    } catch (error) {
+        console.error('Error fetching models:', error);
+        res.status(500).json({ error: 'Failed to retrieve models' });
+    }
 });
 
 // Start the server

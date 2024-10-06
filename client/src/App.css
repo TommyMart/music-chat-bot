@@ -29,6 +29,7 @@
   border: 2px solid white;
   border-radius: 5px;
   text-align: left;
+  cursor: pointer;
 }
 
 .side-menu-btn:hover {
@@ -41,11 +42,11 @@
   padding-right: 12px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
+/* @media (prefers-reduced-motion: no-preference) {
   .logo-record {
     animation: App-logo-spin infinite 20s linear;
   }
-}
+} */
 
 .chat-input-holder {
   padding: 24px;
