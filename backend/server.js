@@ -1,5 +1,5 @@
 const express = require('express');
-const OpenAI = require('openai'); // Adjust import for v4.x
+const OpenAI = require('openai'); // Ensure you're using the correct version
 const cors = require('cors');
 require('dotenv').config();
 
@@ -10,16 +10,16 @@ app.use(express.json());
 // Initialize OpenAI with API key directly
 const openai = new OpenAI({
   organization: 'org-MAhDwIILgeL56i5hrHTPOsmz',
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY, // Use the API key from the environment variable
 });
 
 const MAX_CHARACTER_LIMIT = 300; // Set your desired character limit
 
 app.post('/api/chat', async (req, res) => {
   const { message } = req.body;
-  let accumulatedReply = ''; // Initialize the accumulated reply
 
   try {
+    // Call OpenAI API without streaming
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo", // Specify the model
       messages: [
@@ -30,36 +30,24 @@ app.post('/api/chat', async (req, res) => {
         { role: 'user', content: message }
       ],
       max_tokens: 200,
-      stream: true // Enable streaming
     });
 
-    // Handle the streaming response
-    response.on('data', (data) => {
-      const messagePart = data.choices[0].delta.content || ''; // Get the content part of the streamed response
+    // Log the response to see its structure
+    console.log('OpenAI Response:', response);
 
-      // Accumulate the reply
-      accumulatedReply += messagePart;
+    // Ensure response.choices exists and grab the first choice
+    if (response && response.choices && response.choices.length > 0) {
+      const reply = response.choices[0].message.content; // Adjust this line based on the actual response structure
 
-      // Check if the accumulated reply exceeds the character limit
-      if (accumulatedReply.length > MAX_CHARACTER_LIMIT) {
-        // Trim to the maximum character limit
-        accumulatedReply = accumulatedReply.slice(0, MAX_CHARACTER_LIMIT);
-        
-        // Optionally send the accumulated reply back to the client
-        res.json({ response: accumulatedReply });
-        response.destroy(); // Stop streaming
+      // Check if the reply exceeds the character limit
+      if (reply.length > MAX_CHARACTER_LIMIT) {
+        res.json({ response: reply.slice(0, MAX_CHARACTER_LIMIT) });
+      } else {
+        res.json({ response: reply });
       }
-
-      // Log the current part
-      console.log('Streaming Response:', accumulatedReply);
-    });
-
-    response.on('end', () => {
-      // Final processing when streaming ends
-      console.log('Final Reply:', accumulatedReply);
-      // Send the final accumulated reply to the client
-      res.json({ response: accumulatedReply });
-    });
+    } else {
+      res.status(400).json({ error: 'No response from OpenAI' });
+    }
 
   } catch (error) {
     console.error('Error calling OpenAI API:', error);
