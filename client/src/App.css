@@ -1,0 +1,151 @@
+.App {
+  text-align: center;
+  display: flex;
+  background-color: #999ba0;
+  color: white;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+
+.sideMenu {
+  width: 260px;
+  /* border: 1px solid white; */
+  background-color: #202123;
+  padding: 40px;
+}
+
+.chatbox {
+  flex: 1;
+  /* border: 1px solid white; */
+  background-color: #282c34;
+  position: relative;
+}
+
+.side-menu-btn {
+  padding: 10px;
+  border: 2px solid white;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.side-menu-btn:hover {
+  background-color: rgba(135, 134, 134, 0.1);
+  transition: ease 0.25s all;
+}
+
+.side-menu-btn span {
+  padding-left: 6px;
+  padding-right: 12px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .logo-record {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.chat-input-holder {
+  padding: 24px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.chat-input-textarea {
+  background-color: rgba(201, 196, 196, 0.1);
+  width: 100%;
+  border-radius: 6px;
+  border-color: none;
+  padding: 12px;
+  margin: 12px;
+  font-size: 1.25em;
+  outline: none;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.25);
+  color: white;
+}
+
+.chat-input-holder .App-header {
+  background-color: #3c424f;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.chat-log {
+  text-align: left;
+}
+
+.chat-message.chat-bot {
+  background-color: #444654;
+}
+
+.chat-message-center {
+  padding: 12px;
+  padding-left: 24px;
+  padding-right: 24px;
+  display: flex;
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+}
+
+.avatar {
+  background: white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+.logo-record {
+  /* display: flex; */
+  background: white;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 2rem;
+}
+
+.avatar.chat-bot {
+  background: white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.robot {
+  background: white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.message {
+  margin-left: 1rem;
+  flex: 1;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
