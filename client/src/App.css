@@ -233,8 +233,9 @@
   flex-grow: 1; /* Take up all available vertical space */
   display: flex;
   flex-direction: column;
-  overflow-y: auto; /* Enable scrolling when content overflows */
-
+  justify-content: flex-start;
+  overflow-y: scroll; /* Enable scrolling when content overflows */
+  scroll-behavior: smooth;
   flex-direction: column; /* Normal column order */
   padding: 16px;
   margin-bottom: 1rem;
@@ -280,6 +281,11 @@
 .chat-message.chat-bot {
   background-color: #444654;
   color: #ff4d46;
+}
+
+.message {
+  margin-left: 1rem;
+  flex: 1;
 }
 
 .chat-message-center {
@@ -329,11 +335,6 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-}
-
-.message {
-  margin-left: 1rem;
-  flex: 1;
 }
 
 @keyframes App-logo-spin {
