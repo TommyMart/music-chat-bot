@@ -13,24 +13,26 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, // Use the API key from the environment variable
 });
 
-const MAX_CHARACTER_LIMIT = 300; // Set your desired character limit
+const MAX_CHARACTER_LIMIT = 2000; // Set your desired character limit
 
 app.post('/api/chat', async (req, res) => {
-  const { message, currentModel } = req.body;
-  console.log(currentModel, "currentModel")
+  const { message, name, age, experienceLevel, genre, method, currentModel } = req.body;
+//   console.log(currentModel, "currentModel")
+  
 
   try {
     // Call OpenAI API without streaming
     const response = await openai.chat.completions.create({
-      model: `${currentModel}`, // Model from client
+      model: "gpt-4o", //`${currentModel}`, // Model from client
       messages: [
-        { 
+        {   
           role: 'system', 
-          content: "Your purpose is to help Gen Z learn to produce electronic music with Ableton live. You can assume they have limited music theory knowledge and aim to make genres such as techno, electro, drum and bass, and house. Please communicate like you are Gen Z." 
+          content: `Please help ${name === '' ? 'user' : name}, get better at producing electronic ${genre} music using ${method}. They have ${experienceLevel} experience level. Please communicate like you are age ${age}.` 
         },
         { role: 'user', content: message }
       ],
       max_tokens: 200,
+      
     });
 
     // Log the response to see its structure

@@ -4,6 +4,7 @@ import robot from './assets/robot2.png';
 import record from './assets/record.png'
 import { useState, useEffect } from 'react';
 // use effect runs once when app loads
+// import levels from './assets/level.png'
 
 
 function App() {
@@ -13,13 +14,30 @@ function App() {
     
   }, [])
 
-  const EXPERIENCE_LEVELS = [ 'beginner', 'intermediate', 'advanced' ]
+  // useEffect(() => {
+  //   setMessages("Hi, and welcome to Electronic Music Tutorial! Please select your experience and what you'd like to make from the left hand drop downs menus before we get started.")
+  //   setAge('')
+  // }, [])
 
-  const [messages, setMessages] = useState([]); // State for chat messages
+  const EXPERIENCE_LEVELS = [ 'beginner', 'intermediate', 'advanced' ]
+  const GENRES = [ 'Deep House', 'Techno', 'Electro', 'Breaks', 'Dub', 'Beats', 'Drum & Bass']
+  const METHODS = [ 'Ableton', 'Logic Pro', 'FL Studio', 'Hardware', 'Eurorack', 'MPC', 'Elektron' ]
+  const AGES = [ '15 or younger', '16 to 20', '21 to 28', '29 to 35', '36 and older']
+
+  const [messages, setMessages] = useState([
+    { text: "Hi, and welcome to Electronic Music Tutorial! Please select your experience level and what genre you'd like to make from the left-hand drop-down menu before we get started. Type ready when you're ready to start producing!", sender: 'bot' }
+  ]); // State for chat messages
   const [input, setInput] = useState(''); // State for input text
   const [models, setModels] = useState([]);
-  const [currentModel, setCurrentModel] = useState("gpt-3.5-turbo");
+  const [currentModel, setCurrentModel] = useState("gpt-4o");
   const [experienceLevel, setExperienceLevel] = useState('');
+  const [genre, setGenre] = useState('');
+  const [method, setMethod] = useState('');
+  const [age, setAge] = useState('');
+  const [name, setName] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  
 
   function clearChat() {
     setMessages([]);
@@ -45,6 +63,7 @@ function App() {
 
     // Add user's message to chat log
     setMessages((prev) => [...prev, { text: input, sender: 'user' }]);
+    setLoading(true);
 
     // Send message to backend
     const response = await fetch('http://localhost:5001/api/chat', {
@@ -52,7 +71,7 @@ function App() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ message: input, currentModel }),
+      body: JSON.stringify({ message: input, name, age, experienceLevel, genre, method, currentModel }),
     });
 
     const data = await response.json();
@@ -60,18 +79,53 @@ function App() {
     // Add bot's response to chat log
     setMessages((prev) => [...prev, { text: data.response, sender: 'bot' }]);
     setInput(''); // Clear input after sending
+    setLoading(false);
   };
 
   return (
     <div className='App'>
       
       <aside className='sideMenu'>
-      <img src={robot} alt='record' className='logo-record' />
       
+      <img src={robot} alt='record' className='logo-record' />
+      <h1 className='header'>ELECTRONIC MUSIC TUTORIAL</h1>
+      
+      <div className='sideBtnContainer'>
         <div className='side-menu-btn' onClick={clearChat}>
+        
+          <span>+</span>
+          New Chat
+        </div>
+        </div>
+        <div className='sideBtnContainer'>
+        <div className='side-menu-btn' >
+        
+        <input 
+        typeof='text'
+        placeholder='Enter Name'
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        className='name-input'
+        ></input>
+        </div>
+        </div>
         <div className='expLevel'>
+      
+        <select onChange={(e) => setAge(e.target.value)} value={age}>
+        <option value="" disabled>Age</option>
+        {AGES.map((age, index) => (
+          <option key={index} value={age}>
+            {age.charAt(0).toUpperCase() + age.slice(1)}
+          </option>
+        ))}
+          </select>
+
+        </div>
+
+        <div className='expLevel'>
+      
         <select onChange={(e) => setExperienceLevel(e.target.value)} value={experienceLevel}>
-        <option value="" disabled>Select your experience level</option>
+        <option value="" disabled>Level</option>
         {EXPERIENCE_LEVELS.map((level, index) => (
           <option key={index} value={level}>
             {level.charAt(0).toUpperCase() + level.slice(1)}
@@ -80,7 +134,34 @@ function App() {
           </select>
 
         </div>
-          <div className='models'>
+        
+        <div className='expLevel'>
+      
+        <select onChange={(e) => setGenre(e.target.value)} value={genre}>
+        <option value="" disabled>Genre</option>
+        {GENRES.map((genre, index) => (
+          <option key={index} value={genre}>
+            {genre.charAt(0).toUpperCase() + genre.slice(1)}
+          </option>
+        ))}
+          </select>
+
+        </div>
+        <div className='expLevel'>
+      
+        <select onChange={(e) => setMethod(e.target.value)} value={method}>
+        <option value="" disabled>Method</option>
+        {METHODS.map((method, index) => (
+          <option key={index} value={method}>
+            {method.charAt(0).toUpperCase() + method.slice(1)}
+          </option>
+        ))}
+          </select>
+
+        </div>
+
+          {/* <div className='models'>
+          
           <select onChange={(e) => {
               setCurrentModel(e.target.value);
           }}>
@@ -95,12 +176,10 @@ function App() {
               )}
           </select>
             
-          </div>
-          <span>+</span>
-          New Chat
-        </div>
+          </div> */}
 
       </aside>
+
 
       <section className='chatbox'>
         <div className='chat-log'>
@@ -129,21 +208,32 @@ function App() {
 
         <div className='chat-input-holder'>
           <form onSubmit={handleSubmit}>
-            <textarea
-              rows="1"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              className='chat-input-textarea'
-              placeholder='Type your question here...'
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault(); // Prevent a new line from being added
-                  handleSubmit(e); // Call the submit handler
-                }
-              }}
-            />
+            {loading ? ( // Step 4: Conditional rendering based on loading state
+              <textarea
+                rows="1"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                className='chat-input-textarea'
+                placeholder='Type your question here...'
+                disabled
+              />
+            ) : (
+              <textarea
+                rows="1"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                className='chat-input-textarea'
+                placeholder='Type your question here...'
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault(); // Prevent a new line from being added
+                    handleSubmit(e); // Call the submit handler
+                  }
+                }}
+              />
+            )}
             <button type='submit' className='send-btn'>
-              Send
+              Submit!
             </button>
           </form>
         </div>
