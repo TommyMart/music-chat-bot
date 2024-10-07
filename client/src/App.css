@@ -41,8 +41,8 @@
   flex-direction: columns;
   /* border: 1px solid white; */
   background-color: #171616;
-  position: relative;
-  overflow: inherit;
+  /* position: relative;
+  overflow: inherit; */
 }
 
 .sideBtnContainer {
@@ -240,11 +240,12 @@
   padding: 16px;
   margin-bottom: 1rem;
   height: calc(100vh - 12rem);
+  bottom: 12rem;
 }
 
 .chat-input-holder {
   padding: 24px;
-  position: absolute;
+  /* position: absolute; */
   bottom: 0;
   left: 0;
   right: 0;
