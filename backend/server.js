@@ -20,12 +20,16 @@ app.post('/api/chat', async (req, res) => {
 //   console.log(currentModel, "currentModel")
 const MAX_MESSAGES = 5;
 const newMessage = { role: 'user', content: message };
+const validMessages = messages
+  .slice(-MAX_MESSAGES)
+  .filter(mesg => mesg.role && mesg.content)
+
 const fullMessages = [
   {
     role: 'system',
-    content: `Please help ${name === '' ? 'user' : name}, get better at producing electronic ${genre} music using ${method}. They have ${experienceLevel} experience level. Please communicate like you are age ${age}.`
+    content: `Please help ${name === '' ? 'user' : name}, get better at producing electronic ${genre} music using ${method}. They have ${experienceLevel} experience level. Please communicate like you are age ${age} and try to keep your responses to short paragraphs. Please use new lines for dot points.`
   },
-  ...messages.slice[-MAX_MESSAGES], // Previous messages
+  ...validMessages, // Previous messages
   newMessage // Add the new user message
 ];
   try {
