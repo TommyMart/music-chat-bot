@@ -2,7 +2,7 @@ import './normal.css';
 import './App.css';
 import robot from './assets/robot2.png';
 import record from './assets/record.png'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 // use effect runs once when app loads
 // import levels from './assets/level.png'
 
@@ -36,7 +36,22 @@ function App() {
   const [age, setAge] = useState('');
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
+  
+  const chatLogRef = useRef(null);
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    if (chatLogRef.current) {
+      setTimeout(() => {
+        chatLogRef.current.scrollTop = chatLogRef.current.scrollHeight;
+      }, 100); // Short delay (100ms) to ensure the content is rendered
+    }
+  };
+
+  
   
 
   function clearChat() {
@@ -71,7 +86,7 @@ function App() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ message: input, name, age, experienceLevel, genre, method, currentModel }),
+      body: JSON.stringify({ message: input, messages, name, age, experienceLevel, genre, method, currentModel }),
     });
 
     const data = await response.json();
@@ -80,6 +95,8 @@ function App() {
     setMessages((prev) => [...prev, { text: data.response, sender: 'bot' }]);
     setInput(''); // Clear input after sending
     setLoading(false);
+
+    
   };
 
   return (

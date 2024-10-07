@@ -13,25 +13,27 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, // Use the API key from the environment variable
 });
 
-const MAX_CHARACTER_LIMIT = 2000; // Set your desired character limit
+const MAX_CHARACTER_LIMIT = 5000; // Set your desired character limit
 
 app.post('/api/chat', async (req, res) => {
-  const { message, name, age, experienceLevel, genre, method, currentModel } = req.body;
+  const { message, messages, name, age, experienceLevel, genre, method, currentModel } = req.body;
 //   console.log(currentModel, "currentModel")
-  
-
+const MAX_MESSAGES = 5;
+const newMessage = { role: 'user', content: message };
+const fullMessages = [
+  {
+    role: 'system',
+    content: `Please help ${name === '' ? 'user' : name}, get better at producing electronic ${genre} music using ${method}. They have ${experienceLevel} experience level. Please communicate like you are age ${age}.`
+  },
+  ...messages.slice[-MAX_MESSAGES], // Previous messages
+  newMessage // Add the new user message
+];
   try {
     // Call OpenAI API without streaming
     const response = await openai.chat.completions.create({
       model: "gpt-4o", //`${currentModel}`, // Model from client
-      messages: [
-        {   
-          role: 'system', 
-          content: `Please help ${name === '' ? 'user' : name}, get better at producing electronic ${genre} music using ${method}. They have ${experienceLevel} experience level. Please communicate like you are age ${age}.` 
-        },
-        { role: 'user', content: message }
-      ],
-      max_tokens: 200,
+      messages: fullMessages,
+      max_tokens: 400,
       
     });
 

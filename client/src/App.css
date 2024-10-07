@@ -38,7 +38,7 @@
 .chatbox {
   flex: 1;
   height: 100vh;
-
+  flex-direction: columns;
   /* border: 1px solid white; */
   background-color: #171616;
   position: relative;
@@ -228,6 +228,19 @@
   transform: scale(1.1); /* Slightly enlarge the text on hover */
 }
 
+.chat-log {
+  text-align: left;
+  flex-grow: 1; /* Take up all available vertical space */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Enable scrolling when content overflows */
+
+  flex-direction: column; /* Normal column order */
+  padding: 16px;
+  margin-bottom: 1rem;
+  height: calc(100vh - 12rem);
+}
+
 .chat-input-holder {
   padding: 24px;
   position: absolute;
@@ -262,17 +275,6 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
-
-.chat-log {
-  text-align: left;
-  flex-grow: 1; /* Take up all available vertical space */
-  overflow-y: auto; /* Enable scrolling when content overflows */
-  display: flex;
-  flex-direction: column; /* Normal column order */
-  padding: 16px;
-  margin-bottom: 1rem;
-  height: calc(100vh - 12rem);
 }
 
 .chat-message.chat-bot {
