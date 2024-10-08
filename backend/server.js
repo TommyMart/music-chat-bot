@@ -16,7 +16,7 @@ const openai = new OpenAI({
 const MAX_CHARACTER_LIMIT = 5000; // Set desired character limit
 
 app.post('/api/chat', async (req, res) => {
-  const { message, messages, name, age, experienceLevel, genre, method, currentModel } = req.body;
+  const { message, messages, name, age, experienceLevel, genre, method, tutorial, currentModel } = req.body;
 //   console.log(currentModel, "currentModel")
 const MAX_MESSAGES = 10;
 const newMessage = { role: 'user', content: message };
@@ -27,7 +27,7 @@ const validMessages = messages
 const fullMessages = [
   {
     role: 'system',
-    content: `Please help ${name === '' ? 'user' : name}, get better at producing electronic ${genre} music using ${method}. They have ${experienceLevel} experience level. Please communicate like you are age ${age} and try to keep your responses to short paragraphs. Please use new lines for dot points.`
+    content: `Please help ${name === '' ? 'user' : name}, get better at producing electronic ${genre} music using ${method}. Please use new lines for dot points. ${tutorial === "" ? "" : `Please teach them a tutorial on ${tutorial}.`} They have ${experienceLevel} experience level. Please communicate like you are age ${age}.`
   },
   ...validMessages, // Previous messages
   newMessage // Add the new user message

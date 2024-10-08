@@ -23,10 +23,11 @@ function App() {
   const GENRES = [ 'Deep House', 'Techno', 'Electro', 'Breaks', 'Dub', 'Beats', 'Drum & Bass']
   const METHODS = [ 'Ableton', 'Logic Pro', 'FL Studio', 'Hardware', 'Eurorack', 'MPC', 'Elektron' ]
   const AGES = [ '15 or younger', '16 to 20', '21 to 28', '29 to 35', '36 and older']
+  const TUTORIALS = [ 'Drums', 'Bass', 'Chords', 'Leads', 'Breaks', 'FXs', 'Mixing', 'Mastering' ]
 
   const [messages, setMessages] = useState([
     { text: "Hi, and welcome to Electronic Music Tutorial! Please select your experience level and what genre you'd like to make from the left-hand drop-down menu before getting started. Type ready to begin!", sender: 'bot' }
-  ]); // 
+  ]); 
   const [input, setInput] = useState(''); 
   const [models, setModels] = useState([]);
   const [currentModel, setCurrentModel] = useState("gpt-4o");
@@ -36,7 +37,10 @@ function App() {
   const [age, setAge] = useState('');
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
+  const [tutorial, setTutorial] = useState('');
   
+
+  // New messages display in screen above text-input-holder
   const chatLogRef = useRef(null);
 
   useEffect(() => {
@@ -51,13 +55,12 @@ function App() {
     }
   };
 
-  
-  
-
+  // Function for new chat 
   function clearChat() {
     setMessages([]);
   } 
 
+  // Function to get all the OpenAI models for selection
   function getEngines() {
     fetch("http://localhost:5001/api/models")
         .then(res => res.json())
@@ -78,7 +81,7 @@ function App() {
 
     // Add user's message to messages state
     setMessages((prev) => [...prev, { text: input, sender: 'user' }]);
-    setLoading(true);
+    setLoading(true); // Disables user submit
 
     // Send message to backend
     const response = await fetch('http://localhost:5001/api/chat', {
@@ -86,16 +89,15 @@ function App() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ message: input, messages, name, age, experienceLevel, genre, method, currentModel }),
+      body: JSON.stringify({ message: input, messages, name, age, experienceLevel, genre, method, tutorial, currentModel }),
     });
 
     const data = await response.json();
 
     // Add bot's response to messages state
-    // const editResponse = (e) => 
     setMessages((prev) => [...prev, { text: data.response, sender: 'bot' }]);
     setInput(''); // Clear input after sending
-    setLoading(false);
+    setLoading(false); // Enables user submit
 
     
   };
@@ -172,6 +174,19 @@ function App() {
         {METHODS.map((method, index) => (
           <option key={index} value={method}>
             {method.charAt(0).toUpperCase() + method.slice(1)}
+          </option>
+        ))}
+          </select>
+
+        </div>
+
+        <div className='expLevel'>
+      
+        <select onChange={(e) => setMethod(e.target.value)} value={tutorial}>
+        <option value="" disabled>Tutorial</option>
+        {TUTORIALS.map((tutorial, index) => (
+          <option key={index} value={tutorial}>
+            {tutorial.charAt(0).toUpperCase() + tutorial.slice(1)}
           </option>
         ))}
           </select>
