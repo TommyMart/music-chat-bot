@@ -18,7 +18,7 @@ const MAX_CHARACTER_LIMIT = 5000; // Set desired character limit
 app.post('/api/chat', async (req, res) => {
   const { message, messages, name, age, experienceLevel, genre, method, currentModel } = req.body;
 //   console.log(currentModel, "currentModel")
-const MAX_MESSAGES = 5;
+const MAX_MESSAGES = 10;
 const newMessage = { role: 'user', content: message };
 const validMessages = messages
   .slice(-MAX_MESSAGES)

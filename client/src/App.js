@@ -3,6 +3,7 @@ import './App.css';
 import robot from './assets/robot2.png';
 import record from './assets/record.png'
 import { useState, useEffect, useRef } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 
 
@@ -24,7 +25,7 @@ function App() {
   const AGES = [ '15 or younger', '16 to 20', '21 to 28', '29 to 35', '36 and older']
 
   const [messages, setMessages] = useState([
-    { text: "Hi, and welcome to Electronic Music Tutorial! Please select your experience level and what genre you'd like to make from the left-hand drop-down menu before we get started. Type ready when you're ready to start producing!", sender: 'bot' }
+    { text: "Hi, and welcome to Electronic Music Tutorial! Please select your experience level and what genre you'd like to make from the left-hand drop-down menu before getting started. Type ready to begin!", sender: 'bot' }
   ]); // 
   const [input, setInput] = useState(''); 
   const [models, setModels] = useState([]);
@@ -91,6 +92,7 @@ function App() {
     const data = await response.json();
 
     // Add bot's response to messages state
+    // const editResponse = (e) => 
     setMessages((prev) => [...prev, { text: data.response, sender: 'bot' }]);
     setInput(''); // Clear input after sending
     setLoading(false);
@@ -215,7 +217,12 @@ function App() {
                 </div>
 
                 <div className='message'>
-                  {msg.text}
+                  {msg.sender === 'bot' ? (
+                    <ReactMarkdown>{msg.text}</ReactMarkdown>
+                  ) : (
+                    <p>{msg.text}</p>
+                  )}
+                  
                 </div>
               </div>
             </div>
