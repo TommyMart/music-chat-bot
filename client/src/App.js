@@ -3,8 +3,7 @@ import './App.css';
 import robot from './assets/robot2.png';
 import record from './assets/record.png'
 import { useState, useEffect, useRef } from 'react';
-// use effect runs once when app loads
-// import levels from './assets/level.png'
+
 
 
 function App() {
@@ -26,8 +25,8 @@ function App() {
 
   const [messages, setMessages] = useState([
     { text: "Hi, and welcome to Electronic Music Tutorial! Please select your experience level and what genre you'd like to make from the left-hand drop-down menu before we get started. Type ready when you're ready to start producing!", sender: 'bot' }
-  ]); // State for chat messages
-  const [input, setInput] = useState(''); // State for input text
+  ]); // 
+  const [input, setInput] = useState(''); 
   const [models, setModels] = useState([]);
   const [currentModel, setCurrentModel] = useState("gpt-4o");
   const [experienceLevel, setExperienceLevel] = useState('');
@@ -47,7 +46,7 @@ function App() {
     if (chatLogRef.current) {
       setTimeout(() => {
         chatLogRef.current.scrollTop = chatLogRef.current.scrollHeight;
-      }, 100); // Short delay (100ms) to ensure the content is rendered
+      }, 100); // Short delay to ensure the content is rendered
     }
   };
 
@@ -62,9 +61,9 @@ function App() {
     fetch("http://localhost:5001/api/models")
         .then(res => res.json())
         .then(data => {
-            console.log("Fetched models data:", data); // Log the entire response
-            console.log("Models array:", data.models); // Log the models specifically
-            setModels(data.models.data); // Ensure this is an array
+            console.log("Fetched models data:", data); 
+            console.log("Models array:", data.models); 
+            setModels(data.models.data); 
         })
         .catch(err => console.error("Error fetching models:", err));
 }
@@ -76,7 +75,7 @@ function App() {
 
     if (!input.trim()) return; // Prevent empty messages
 
-    // Add user's message to chat log
+    // Add user's message to messages state
     setMessages((prev) => [...prev, { text: input, sender: 'user' }]);
     setLoading(true);
 
@@ -91,7 +90,7 @@ function App() {
 
     const data = await response.json();
 
-    // Add bot's response to chat log
+    // Add bot's response to messages state
     setMessages((prev) => [...prev, { text: data.response, sender: 'bot' }]);
     setInput(''); // Clear input after sending
     setLoading(false);
@@ -225,7 +224,7 @@ function App() {
 
         <div className='chat-input-holder'>
           <form onSubmit={handleSubmit}>
-            {loading ? ( // Step 4: Conditional rendering based on loading state
+            {loading ? ( 
               <textarea
                 rows="1"
                 value={input}
@@ -243,8 +242,8 @@ function App() {
                 placeholder='Type your question here...'
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
-                    e.preventDefault(); // Prevent a new line from being added
-                    handleSubmit(e); // Call the submit handler
+                    e.preventDefault(); 
+                    handleSubmit(e); 
                   }
                 }}
               />

@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Initialize OpenAI with API key directly
+// Initialise OpenAI with API key directly
 const openai = new OpenAI({
   organization: process.env.OPENAI_ORG,
   apiKey: process.env.OPENAI_API_KEY, // Use the API key from the environment variable
@@ -66,7 +66,7 @@ const fullMessages = [
 
 app.get('/api/models', async (req, res) => {
     try {
-        // Fetch available models using the correct method for v4 API
+        // Fetch available models 
         const response = await openai.models.list(); 
         
         // Assuming response.data contains the models
