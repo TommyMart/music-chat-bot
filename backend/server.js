@@ -1,5 +1,5 @@
 const express = require('express');
-const OpenAI = require('openai'); // Ensure you're using the correct version
+const OpenAI = require('openai'); 
 const cors = require('cors');
 require('dotenv').config();
 
@@ -13,7 +13,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, // Use the API key from the environment variable
 });
 
-const MAX_CHARACTER_LIMIT = 5000; // Set your desired character limit
+const MAX_CHARACTER_LIMIT = 5000; // Set desired character limit
 
 app.post('/api/chat', async (req, res) => {
   const { message, messages, name, age, experienceLevel, genre, method, currentModel } = req.body;
@@ -33,7 +33,7 @@ const fullMessages = [
   newMessage // Add the new user message
 ];
   try {
-    // Call OpenAI API without streaming
+    // Call OpenAI API 
     const response = await openai.chat.completions.create({
       model: "gpt-4o", //`${currentModel}`, // Model from client
       messages: fullMessages,
@@ -46,7 +46,7 @@ const fullMessages = [
 
     // Ensure response.choices exists and grab the first choice
     if (response && response.choices && response.choices.length > 0) {
-      const reply = response.choices[0].message.content; // Adjust this line based on the actual response structure
+      const reply = response.choices[0].message.content; 
 
       // Check if the reply exceeds the character limit
       if (reply.length > MAX_CHARACTER_LIMIT) {
@@ -70,10 +70,11 @@ app.get('/api/models', async (req, res) => {
         const response = await openai.models.list(); 
         
         // Assuming response.data contains the models
-        console.log(response.data); // Log the actual models data
+        // console.log(response.data);
         
         res.json({
-            models: response.data // Ensure to return models as an array
+            // Ensure to return models as an array
+            models: response.data 
         });
     } catch (error) {
         console.error('Error fetching models:', error);

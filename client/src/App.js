@@ -199,7 +199,7 @@ function App() {
 
 
       <section className='chatbox'>
-        <div className='chat-log'>
+        <div className='chat-log' ref={chatLogRef}>
           {messages.map((msg, index) => (
             <div
               key={index}
