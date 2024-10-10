@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 const corsOptions = {
-  origin: "https://electronic-music-tutorial.netlify.app/",
+  origin: ["https://electronic-music-tutorial.netlify.app/", "http://localhost:5001"],
   optionSuccessStatus: 200,
 }
 
@@ -21,7 +21,7 @@ const openai = new OpenAI({
 const MAX_CHARACTER_LIMIT = 5000; // Set desired character limit
 
 app.post('/api/chat', async (req, res) => {
-  const { message, messages, name, age, experienceLevel, genre, method, tutorial, currentModel } = req.body;
+  const { message, messages, name, age, experienceLevel, genre, method, tutorial } = req.body;
 //   console.log(currentModel, "currentModel")
 const MAX_MESSAGES = 10;
 const newMessage = { role: 'user', content: message };

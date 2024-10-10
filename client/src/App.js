@@ -9,10 +9,10 @@ import ReactMarkdown from 'react-markdown';
 
 function App() {
 
-  useEffect(() => {
-    getEngines();
+  // useEffect(() => {
+  //   getEngines();
     
-  }, [])
+  // }, [])
 
   // useEffect(() => {
   //   setMessages("Hi, and welcome to Electronic Music Tutorial! Please select your experience and what you'd like to make from the left hand drop downs menus before we get started.")
@@ -29,8 +29,8 @@ function App() {
     { text: "Hi, and welcome to Electronic Music Tutorial! Please select your experience level and what genre you'd like to make from the left-hand drop-down menu before getting started. Type ready to begin!", sender: 'bot' }
   ]); 
   const [input, setInput] = useState(''); 
-  const [models, setModels] = useState([]);
-  const [currentModel, setCurrentModel] = useState("gpt-4o");
+  // const [models, setModels] = useState([]);
+  // const [currentModel, setCurrentModel] = useState("gpt-4o");
   const [experienceLevel, setExperienceLevel] = useState('');
   const [genre, setGenre] = useState('');
   const [method, setMethod] = useState('');
@@ -61,16 +61,16 @@ function App() {
   } 
 
   // Function to get all the OpenAI models for selection
-  function getEngines() {
-    fetch("http://localhost:5001/api/models")
-        .then(res => res.json())
-        .then(data => {
-            console.log("Fetched models data:", data); 
-            console.log("Models array:", data.models); 
-            setModels(data.models.data); 
-        })
-        .catch(err => console.error("Error fetching models:", err));
-}
+//   function getEngines() {
+//     fetch("http://localhost:5001/api/models")
+//         .then(res => res.json())
+//         .then(data => {
+//             console.log("Fetched models data:", data); 
+//             console.log("Models array:", data.models); 
+//             setModels(data.models.data); 
+//         })
+//         .catch(err => console.error("Error fetching models:", err));
+// }
   
 
   // Function to handle form submission
@@ -79,9 +79,11 @@ function App() {
 
     if (!input.trim()) return; // Prevent empty messages
 
-    const API_URL = process.env.NODE_ENV === 'production'
-      ? 'https://shielded-waters-45389-481cac9f7ffe.herokuapp.com'
-      : 'http://localhost:5001';
+    // const API_URL = process.env.NODE_ENV === 'production'
+    //   ? 'https://shielded-waters-45389-481cac9f7ffe.herokuapp.com'
+    //   : 'http://localhost:5001';
+
+    const API_URL = 'https://shielded-waters-45389-481cac9f7ffe.herokuapp.com';
 
     // Add user's message to messages state
     setMessages((prev) => [...prev, { text: input, sender: 'user' }]);
@@ -93,7 +95,7 @@ function App() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ message: input, messages, name, age, experienceLevel, genre, method, tutorial, currentModel }),
+      body: JSON.stringify({ message: input, messages, name, age, experienceLevel, genre, method, tutorial }),
     });
 
     const data = await response.json();
@@ -186,7 +188,7 @@ function App() {
 
         <div className='expLevel'>
       
-        <select onChange={(e) => setMethod(e.target.value)} value={tutorial}>
+        <select onChange={(e) => setTutorial(e.target.value)} value={tutorial}>
         <option value="" disabled>Tutorial</option>
         {TUTORIALS.map((tutorial, index) => (
           <option key={index} value={tutorial}>
