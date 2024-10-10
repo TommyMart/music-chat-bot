@@ -60,7 +60,7 @@ function App() {
     setMessages([]);
   } 
 
-  // Function to get all the OpenAI models for selection
+//   // Function to get all the OpenAI models for selection
 //   function getEngines() {
 //     fetch("http://localhost:5001/api/models")
 //         .then(res => res.json())
@@ -83,7 +83,8 @@ function App() {
     //   ? 'https://shielded-waters-45389-481cac9f7ffe.herokuapp.com'
     //   : 'http://localhost:5001';
 
-    const API_URL = 'https://git.heroku.com/music-chat-bot.git';
+    const API_URL = 'https://music-chat-bot-7eeb3e8880fe.herokuapp.com';
+    // const API_URL = 'http://localhost:5001';
 
     // Add user's message to messages state
     setMessages((prev) => [...prev, { text: input, sender: 'user' }]);
