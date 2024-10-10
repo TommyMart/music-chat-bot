@@ -79,12 +79,16 @@ function App() {
 
     if (!input.trim()) return; // Prevent empty messages
 
+    const API_URL = process.env.NODE_ENV === 'production'
+      ? 'https://shielded-waters-45389-481cac9f7ffe.herokuapp.com'
+      : 'http://localhost:5001';
+
     // Add user's message to messages state
     setMessages((prev) => [...prev, { text: input, sender: 'user' }]);
     setLoading(true); // Disables user submit
 
     // Send message to backend
-    const response = await fetch('http://localhost:5001/api/chat', {
+    const response = await fetch(`${API_URL}/api/chat`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

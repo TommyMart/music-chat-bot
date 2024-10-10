@@ -3,8 +3,13 @@ const OpenAI = require('openai');
 const cors = require('cors');
 require('dotenv').config();
 
+const corsOptions = {
+  origin: "https://electronic-music-tutorial.netlify.app/",
+  optionSuccessStatus: 200,
+}
+
 const app = express();
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Initialise OpenAI with API key directly
