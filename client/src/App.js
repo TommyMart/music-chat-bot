@@ -83,7 +83,7 @@ function App() {
     //   ? 'https://shielded-waters-45389-481cac9f7ffe.herokuapp.com'
     //   : 'http://localhost:5001';
 
-    const API_URL = 'https://shielded-waters-45389-481cac9f7ffe.herokuapp.com';
+    const API_URL = 'https://git.heroku.com/music-chat-bot.git';
 
     // Add user's message to messages state
     setMessages((prev) => [...prev, { text: input, sender: 'user' }]);
