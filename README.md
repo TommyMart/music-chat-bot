@@ -2,6 +2,8 @@
 
 #### Built for Coder Academy's 7-day Hackathon
 
+Backend Repo [here](https://github.com/TommyMart/music-chat-bot-backend).
+
 ### Tech stack
 
 - React
