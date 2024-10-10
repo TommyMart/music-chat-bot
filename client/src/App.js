@@ -252,7 +252,7 @@ function App() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 className='chat-input-textarea'
-                placeholder='Type your question here...'
+                placeholder={'Type your question here...'}
                 disabled
               />
             ) : (
