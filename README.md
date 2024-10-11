@@ -2,7 +2,11 @@
 
 #### Built for Coder Academy's 7-day Hackathon
 
-Backend Repo [here](https://github.com/TommyMart/music-chat-bot-backend).
+#### Deployment [here](https://electronic-music-tutorial.netlify.app/)
+
+#### Application Presentation [here](https://drive.google.com/file/d/1RxcXv2QlOhGgyitKHh4O4XBmZF_I8ixc/view?usp=sharing).
+
+#### Backend Repo [here](https://github.com/TommyMart/music-chat-bot-backend).
 
 ### Tech stack
 
