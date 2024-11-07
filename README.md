@@ -2,7 +2,7 @@
 
 #### Built for Coder Academy's 7-day Hackathon
 
-#### Deployment [here](https://electronic-music-tutorial.netlify.app/)
+#### Deployment [here](https://electronic-music-tutorial.netlify.app/) (Server currently deactivated)
 
 #### Application Presentation [here](https://drive.google.com/file/d/1RxcXv2QlOhGgyitKHh4O4XBmZF_I8ixc/view?usp=sharing).
 
