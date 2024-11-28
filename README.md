@@ -1,6 +1,6 @@
 ## OpenAI Electronic Music Tutorial App
 
-#### Built under time constrainsts for Coder Academy's Hackathon.
+#### Built under time constraints for Coder Academy's Hackathon.
 
 #### Deployment [here](https://electronic-music-tutorial.netlify.app/) (Server currently deactivated).
 
